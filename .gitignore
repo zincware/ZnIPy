@@ -1,0 +1,5 @@
+.idea
+znipy.egg-info
+tmp/
+__pycache__/
+.pymon
