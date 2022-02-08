@@ -7,7 +7,7 @@ required_packages = pathlib.Path("requirements.txt").read_text().splitlines()
 
 setuptools.setup(
     name="znipy",
-    version="0.1.0",
+    version="0.1.1",
     author="zincwarecode",
     author_email="zincwarecode@gmail.com",
     description="Easy imports from Jupyter Notebooks",

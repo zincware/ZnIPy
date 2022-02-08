@@ -1,9 +1,12 @@
 import logging
 import sys
 
+from znipy.core.finder import register
 from znipy.core.loader import NotebookLoader
 
-__all__ = [NotebookLoader.__name__]
+__all__ = [NotebookLoader.__name__, register.__name__]
+
+__version__ = "0.1.1"
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)

@@ -7,7 +7,16 @@ See [Importing Jupyter Notebooks as Modules](https://jupyter-notebook.readthedoc
 ```python
 from znipy import NotebookLoader
 
-module = NotebookLoader("JupyterNotebook.ipnyb").load_module()
+module = NotebookLoader().load_module("JupyterNotebook.ipnyb")
 
 hello_world = module.HelloWorld()
+```
+or with direct imports
+```python
+import znipy
+znipy.register()
+
+from JupyterNotebook import HelloWorld
+
+hello_world = HelloWorld()
 ```

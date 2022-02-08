@@ -3,7 +3,7 @@ from distutils import dir_util
 
 import pytest
 
-import znipy
+from znipy import NotebookLoader
 
 
 @pytest.fixture
@@ -28,25 +28,11 @@ def datadir(tmpdir, request):
 
 @pytest.fixture()
 def module(datadir):
-    os.chdir(datadir)
-    znipy.register()
-    import example_nb
-
-    return example_nb
+    return NotebookLoader().load_module(file=datadir / "example_nb.ipynb")
 
 
-def test_HelloWorld(datadir):
-    os.chdir(datadir)
-    znipy.register()
-    import example_nb
-
-    assert example_nb.HelloWorld().get_name() == "HelloWorld"
-
-    from example_nb import HelloWorld
-
-    assert HelloWorld().get_name() == "HelloWorld"
-
-    assert example_nb.HelloWorld is HelloWorld
+def test_HelloWorld(module):
+    assert module.HelloWorld().get_name() == "HelloWorld"
 
 
 def test_AbstractClass(module):

@@ -57,12 +57,14 @@ class NotebookLoader:
 
     """
 
-    def __init__(self, file):
+    def __init__(self, path=None):
         self.shell = InteractiveShell.instance()
-        self.file = pathlib.Path(file).with_suffix(".ipynb")
+        self.path = path
 
     def load_module(
         self,
+        file=None,
+        *,
         run_imports=True,
         run_functions=True,
         run_classes=True,
@@ -85,20 +87,22 @@ class NotebookLoader:
             Ignore regex and run everything
         """
 
-        log.debug(f"importing Jupyter notebook from {self.file}")
+        file = pathlib.Path(file).with_suffix(".ipynb")
+
+        log.debug(f"importing Jupyter notebook from {file}")
 
         # load the notebook object
-        with io.open(self.file, "r", encoding="utf-8") as f:
+        with io.open(file, "r", encoding="utf-8") as f:
             nb = read(f, 4)
 
         # create the module and add it to sys.modules
         # if name in sys.modules:
         #    return sys.modules[name]
-        mod = types.ModuleType(self.file.stem)
-        mod.__file__ = self.file.as_posix()
+        mod = types.ModuleType(file.stem)
+        mod.__file__ = file.as_posix()
         mod.__loader__ = self
         mod.__dict__["get_ipython"] = get_ipython
-        sys.modules[self.file.stem] = mod
+        sys.modules[file.stem] = mod
 
         # extra work to ensure that magics that would affect the user_ns
         # actually affect the notebook module's ns
